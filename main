@@ -1,0 +1,44 @@
+#include <vector>
+#include <random>
+#include <algorithm>
+#include <iostream>
+#include <cmath>
+
+bool birthday()
+{
+    std::vector<int> days(23);
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distr(1, 365);
+    for (int i = 0; i < 23; ++i)
+    {
+        days[i] = distr(gen);
+    }
+    std::sort (days.begin(), days.end());
+    for (int i = 1; i < 23; ++i)
+    {
+        if (days[i] == days[i - 1])
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+int main()
+{
+    long double good = 0;
+    long double bad = 0;
+    while (true)
+    {
+        if (birthday() == 1)
+        {
+            good ++;
+        }
+        bad ++;
+        if (static_cast<int>(std::floor(bad)) % 10000 == 0)
+        {
+            std::cout << (good / bad) * 100 << std::endl;
+        }
+    }
+}
